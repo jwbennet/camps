@@ -1,0 +1,4 @@
+CREATE USER demo IDENTIFIED BY '__PASS__';
+GRANT ALL PRIVILEGES ON demo.*
+TO '__ROLE__'@'localhost'
+IDENTIFIED BY '__PASS__';

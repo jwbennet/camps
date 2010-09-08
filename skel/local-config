@@ -1,0 +1,53 @@
+## Project-specific camp configuration
+# A space-separated list of directories that are expected to reside under your
+# camp
+camp_subdirectories:httpd
+
+## Apache configuration
+# The host name used by Apache for each camp instance
+hostname:__CAMP_NUMBER__.localhost.localdomain
+# The document root used by Apache for each camp instance
+docroot:__CAMP_PATH__/htdocs
+
+
+## Postgres Configuration (comment if using mysql)
+db_type:pg
+
+# A space-separated list of SQL scripts which should be ran when the camp is
+# created (relative to the project's root directory)
+db_source_scripts:/pgsql/tmp/production_dump.sql
+
+# Space-separated list of database names that are expected to live within your
+# camp's database server.
+db_dbnames: demo
+
+# The default database to connect to when psql_camp is used
+db_default_database: demo
+
+# The default database user to use when connecting to the database with
+# psql_camp
+db_default_user:demo
+
+# The amount of time to sleep after the daemon is started before running
+# initial scripts
+db_sleep_time:15
+
+
+## MySQL Configuration (uncomment to use)
+#db_type:mysql
+
+# Scripts which need to be ran for MySQL before running any other source
+# scripts.  Usually these scripts create the databases which will be
+# used.
+#db_mysql_scripts:mysql/tmp/demo_init.sql
+
+# See above in Postgres configuration for descriptions of these variables
+#db_source_scripts:dbdump/tmp/production.mysql_dump
+#db_dbnames:demo
+#db_default_database: demo
+#db_sleep_time:60
+#db_default_user:demo
+
+## Git configuration
+vcs_default_type:git
+repo_path_git:__CAMP_TYPE__.git/

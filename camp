@@ -1,0 +1,83 @@
+#!/usr/local/bin/perl
+
+use strict;
+use warnings;
+use Getopt::Long;
+use lib '/home/camp/lib';
+use Camp::User;
+use Camp::Type;
+
+# Create a list of all arguments which are not options
+my @args = grep(!m/^-/, @ARGV);
+
+# Show a usage error if no arguments are passed
+usage_error() unless $args[0];
+
+if ($args[0] eq 'user') {
+	usage_error() unless $args[1] && $args[2];
+	if ($args[1] eq 'add') {
+		my $username = $args[2];
+		my %conf;
+		GetOptions( \%conf,
+					qw(
+					   name=s
+					   email=s
+					   all
+					   )
+					);
+		Camp::User::add($username, %conf);
+	}
+	elsif ($args[1] eq 'rm' || $args[1] eq 'remove') {
+		my $username = $args[2];
+		my %conf;
+		GetOptions( \%conf, qw( all ) );
+		Camp::User::rm($username, %conf);
+	}
+	else {
+		usage_error();
+	}
+}
+elsif ($args[0] eq 'type') {
+    usage_error() unless $args[1] && $args[2];
+    if ($args[1] eq 'add') {
+		my $type = $args[2];
+		my %conf;
+		GetOptions( \%conf, qw( description=s ) );
+		Camp::Type::add($type, %conf);
+    }
+    elsif ($args[1] eq 'rm' || $args[1] eq 'remove') {
+		Camp::Type::rm($args[2]);
+	  }
+    else {
+		usage_error();
+    }
+}
+elsif ($args[0] eq 'help') {
+    print usage();
+}
+
+sub usage {
+    return <<EOH
+camp user add USERNAME --name="NAME" --email="EMAIL" [--all]
+    Adds the system user USERNAME as a camp admin with NAME and EMAIL used as
+    the user's information.  The --all flag will cause the system user to be
+    created when this script is ran as well.
+camp user remove USERNAME [--all]
+    Removes the system user USERNAME from the list of camp admins.  When the
+    --all option is given the system user is also removed in addition to all
+    of their camps.
+camp user rm USERNAME [--all]
+    Same as "camp user remove USERNAME [--all]"
+camp type add TYPE [--description="DESC"]
+    Creates a new camp type named TYPE with an optional description DESC.
+camp type remove TYPE
+    Removes the camp type TYPE
+camp type rm TYPE
+    Same as "camp type remove TYPE"
+EOH
+}
+
+sub usage_error {
+    die usage();
+}
+

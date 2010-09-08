@@ -1,0 +1,2 @@
+# Add all camp-specific configuration files
+httpd/conf/httpd.conf

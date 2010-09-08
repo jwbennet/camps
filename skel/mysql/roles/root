@@ -1,0 +1,1 @@
+UPDATE user SET password = PASSWORD('__PASS__') WHERE user = '__ROLE__'
